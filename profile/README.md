@@ -1,5 +1,27 @@
 # Long-Term Memory Structure
 
+We have built a Long Term Memory Structure for users who wish to operate a persistant personal knowledge substrate with unbounded potential that does not decay with time or usage. For this purpose we revereted to classical veteran information system: append only ledgers, heal by addition, monotonic increments, time series, provenance, event sourcing versioning and pointers first. 
+
+The Problem:
+(for laypeople with diagrams and my words paraphrased)
+TBD: context economics 
+
+horizontal vs vertical expansion 
+
+swarming 
+
+cognitive adavantage of keeping cognition in one substrate: Anthoripic guidence on when to fold agents , and also the experiments that document comitee faiures ect
+
+
+The Solution: 
+
+TBD: you know what to do , for laypeople with diagrams 
+
+
+
+The technicals: 
+(you know what to do, but we keep the technicals at the bottom part of the page)
+
 Claude Code saves each session as a file on your computer. These tools help your agent, and you, find things there again. That includes details your agent lost when Claude Code shortened the conversation into a summary (a compaction). One of them, `ltms pin`, can also keep copies of those files past Claude Code's 30-day cleanup. Everything runs on your own machine.
 
 There are three npm packages. [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (command `ltms`) is made for your agent: it finds things and prints where they are. [`ltms-reader`](https://github.com/long-term-memory-structure/ltms-reader) is made for you: it shows the text. [`ltms-semantic`](https://github.com/long-term-memory-structure/ltms-semantic) adds search by meaning.
