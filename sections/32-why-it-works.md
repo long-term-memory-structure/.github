@@ -14,6 +14,6 @@ So ltms gives the agent a small outline of each transcript. `ltms skeleton` prin
 
 In turn 3, the agent ran `npm` and it failed with exit code 1; the call is on line 24, its result on line 25. Line 25 holds what the outline leaves out: `FAIL test/add.test.js`, `expected 4, received 5`. The agent reads that one line, as the skill shows it, not the whole session. [The ltms README](https://github.com/long-term-memory-structure/long-term-memory-structure/blob/v0.3.1/README.md#ltms-skeleton-filejsonl) explains every field.
 
-On 2,539 transcripts, that outline came to 0.7 % of their size, so it fits in a context window where the transcript does not.
+On 2,539 transcripts, that outline came to 0.7% of their size, so it fits in a context window where the transcript does not.
 
 ltms is the first piece of a larger design. The main README's [Intent and tradeoffs](https://github.com/long-term-memory-structure/long-term-memory-structure/blob/v0.3.1/README.md#intent-and-tradeoffs) lists its aims and what each costs.

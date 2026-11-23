@@ -1,6 +1,6 @@
 ## The Solution
 
-We take the memory out of the window. With our open-source tools (ltms and two companions, below), your agent, and you, can still find and reread what was said or done in earlier sessions, or before a compaction. This already works with Claude Code, on your own computer.
+We take the memory out of the window. With our open-source tools (ltms and two companions, below), your agent, and you, can still find and reread what was said or done in earlier sessions, or, as far as we measured, before a compaction. This already works with Claude Code, on your own computer.
 
 ### Outside the window, read by address
 
@@ -17,7 +17,7 @@ Below, the same context window, with a memory kept in it and with ltms.
 
 ### Search by meaning, answered with addresses
 
-A search by meaning finds what was said even in other words. It turns each passage into an embedding (or vector): a list of numbers, close for passages close in meaning. The usual way, called RAG (retrieval-augmented generation), puts the nearest passages' text into the window. Ours, `ltms-semantic`, answers with addresses instead, not with the passages' text or their vectors; then you read only the line you need, word for word, at its address. We call this RAGDAG: `ltms-semantic` does it now, with ltms's turn and line addresses; in the larger design below, the addresses are hashes in a DAG (a directed acyclic graph).
+A search by meaning finds what was said even in other words. It turns each passage into an embedding (or vector): a list of numbers, close for passages close in meaning. The usual way, called RAG (retrieval-augmented generation), puts the nearest passages' text into the window. Ours, `ltms-semantic`, answers with addresses instead, not with the passages' text or their vectors; then you read only the line you need, word for word, at its address. We call this RAGDAG. `ltms-semantic` does it today, with ltms's addresses (a session and a turn or a line in it); in the larger design below, the addresses would be hashes in a DAG (a directed acyclic graph).
 
 <!-- diagram: solution-ragdag -->
 
@@ -25,7 +25,7 @@ A search by meaning finds what was said even in other words. It turns each passa
 
 Three open-source packages do rules 3 and 4, and part of rule 1, on your own machine:
 
-- [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (the command `ltms`) gives your agent the outline and the addresses, and finds the turns that hold given words. `ltms pin` keeps copies of the session files past Claude Code's cleanup; once it has copied a version of a file, ltms never deletes it or writes over it, except in the cases its README lists.
+- [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (the command `ltms`) gives your agent the outline and the addresses, and finds the turns that hold given words. `ltms pin` keeps copies of the session files past Claude Code's cleanup; once it has copied a version of a file, ltms keeps it: it deletes or writes over a copy only in the cases its README lists.
 - [`ltms-reader`](https://github.com/long-term-memory-structure/ltms-reader) shows you the text at an address.
 - [`ltms-semantic`](https://github.com/long-term-memory-structure/ltms-semantic) searches by meaning, and answers with the same addresses.
 

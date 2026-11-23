@@ -77,7 +77,7 @@ flowchart TB
   style wn stroke-dasharray: 5 5
 ```
 
-Split across agents, the work is a swarm, of one of two kinds. Many agents can work on the same question as many tries: that is how a question is answered when no direct method is known, and a direct method, where one exists, costs far less. Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
+Split across agents, the work is a swarm, in one of two ways. Many agents can try the same question, each its own way: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
 
 We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 
@@ -95,7 +95,7 @@ Cognition's [Don't Build Multi-Agents](https://cognition.com/blog/dont-build-mul
   <img src="memes/parts-that-do-not-fit-light.png" alt="Parts built apart do not fit. At the top, under MANY AGENTS AT ONCE, three windows of the same size stand side by side, and in each one an agent builds its own piece of one graph without seeing the other windows, so the three pieces come out in three different styles, red discs, red squares and red diamonds, at three different heights. Where two pieces should join, in the gap between their windows, each agent built its own half of the joint: the two heavy ends reach the middle of the gap from either side, one higher than the other, and do not meet. At the bottom, under ONE AGENT OVER TIME, one window of the same size sits at the growing end of one graph drawn in one style. The part already written, solid red discs on solid lines, runs outside the window to the left; the part not yet written, hollow green rings with dashed outlines on dashed lines, grows inside the window, joined to the red across its frame. A solid arrow marked by address reads one older red node back into the window as a ringed copy, and a dashed line joins the copy to the new green work.">
 </picture>
 
-A 2025 study of teams of AI agents, [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (an LLM, a large language model, is the kind of AI model this page is about), notes that such teams' gains on popular tests are "often minimal"; it gathers over 1,600 recorded runs of 7 popular multi-agent tools, and names 14 ways they fail.
+A 2025 study of teams of AI agents, [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (LLM: a large language model, the kind of AI model this page is about), notes that such teams' gains on popular tests are "often minimal"; it gathers over 1,600 recorded runs of 7 popular multi-agent tools, and names 14 ways they fail.
 
 Several agents do help in some cases, such as questions that branch into independent directions: [Anthropic's multi-agent research system](https://www.anthropic.com/research/multi-agent-research-system) outperformed a single agent by 90.2% on Anthropic's internal research evaluation, for example in identifying all the board members of the companies in the S&P 500's information technology sector. By Anthropic's count, one agent uses about 4 times the tokens of a chat, and a multi-agent system about 15 times, and such systems fit poorly where every agent needs the same context. Anthropic's article on folding subagents keeps them for three cases: a window so full that the agent measurably does worse; tasks that need to run in parallel, each in a fresh window that can be thrown away afterwards; an agent unsure which tools to use, or with conflicting instructions. Our rule: start another agent when one is already fully occupied and more work comes, not by default.
 
@@ -113,7 +113,7 @@ So a long-term memory has two demands in tension: a record that keeps growing, a
 
 ## The Solution
 
-We take the memory out of the window. With our open-source tools (ltms and two companions, below), your agent, and you, can still find and reread what was said or done in earlier sessions, or before a compaction. This already works with Claude Code, on your own computer.
+We take the memory out of the window. With our open-source tools (ltms and two companions, below), your agent, and you, can still find and reread what was said or done in earlier sessions, or, as far as we measured, before a compaction. This already works with Claude Code, on your own computer.
 
 ### Outside the window, read by address
 
@@ -153,7 +153,7 @@ flowchart TB
 
 ### Search by meaning, answered with addresses
 
-A search by meaning finds what was said even in other words. It turns each passage into an embedding (or vector): a list of numbers, close for passages close in meaning. The usual way, called RAG (retrieval-augmented generation), puts the nearest passages' text into the window. Ours, `ltms-semantic`, answers with addresses instead, not with the passages' text or their vectors; then you read only the line you need, word for word, at its address. We call this RAGDAG: `ltms-semantic` does it now, with ltms's turn and line addresses; in the larger design below, the addresses are hashes in a DAG (a directed acyclic graph).
+A search by meaning finds what was said even in other words. It turns each passage into an embedding (or vector): a list of numbers, close for passages close in meaning. The usual way, called RAG (retrieval-augmented generation), puts the nearest passages' text into the window. Ours, `ltms-semantic`, answers with addresses instead, not with the passages' text or their vectors; then you read only the line you need, word for word, at its address. We call this RAGDAG. `ltms-semantic` does it today, with ltms's addresses (a session and a turn or a line in it); in the larger design below, the addresses would be hashes in a DAG (a directed acyclic graph).
 
 ```mermaid
 ---
@@ -179,7 +179,7 @@ flowchart LR
 
 Three open-source packages do rules 3 and 4, and part of rule 1, on your own machine:
 
-- [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (the command `ltms`) gives your agent the outline and the addresses, and finds the turns that hold given words. `ltms pin` keeps copies of the session files past Claude Code's cleanup; once it has copied a version of a file, ltms never deletes it or writes over it, except in the cases its README lists.
+- [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (the command `ltms`) gives your agent the outline and the addresses, and finds the turns that hold given words. `ltms pin` keeps copies of the session files past Claude Code's cleanup; once it has copied a version of a file, ltms keeps it: it deletes or writes over a copy only in the cases its README lists.
 - [`ltms-reader`](https://github.com/long-term-memory-structure/ltms-reader) shows you the text at an address.
 - [`ltms-semantic`](https://github.com/long-term-memory-structure/ltms-semantic) searches by meaning, and answers with the same addresses.
 
@@ -189,7 +189,7 @@ The larger design goes further; these are its ideas, not the packages' features.
 
 The technicals below show how to install and use ltms, how to open ltms-reader, and what ltms-semantic needs.
 
-## The technicals
+## The Technicals
 
 Who uses each package, and what it gives back:
 
@@ -309,7 +309,7 @@ flowchart LR
 
 In turn 3, the agent ran `npm` and it failed with exit code 1; the call is on line 24, its result on line 25. Line 25 holds what the outline leaves out: `FAIL test/add.test.js`, `expected 4, received 5`. The agent reads that one line, as the skill shows it, not the whole session. [The ltms README](https://github.com/long-term-memory-structure/long-term-memory-structure/blob/v0.3.1/README.md#ltms-skeleton-filejsonl) explains every field.
 
-On 2,539 transcripts, that outline came to 0.7 % of their size, so it fits in a context window where the transcript does not.
+On 2,539 transcripts, that outline came to 0.7% of their size, so it fits in a context window where the transcript does not.
 
 ltms is the first piece of a larger design. The main README's [Intent and tradeoffs](https://github.com/long-term-memory-structure/long-term-memory-structure/blob/v0.3.1/README.md#intent-and-tradeoffs) lists its aims and what each costs.
 
@@ -348,6 +348,8 @@ Installing downloads each package and its dependencies from the npm registry (on
 | `ltms-semantic` | Node.js 22.13.0 or newer; at least 4 GiB of memory to index; tested on Linux x64 only | Only `model fetch`, which downloads the model from Hugging Face |
 
 ltms-semantic's store, on your disk, holds none of your transcripts' text (it keeps their paths), but text can be partly recovered from its vectors: keep it as private as `~/.claude`.
+
+A line your agent reads back from a transcript enters its context like any other text, and an old tool result can hold instructions planted by whoever wrote the page or file it came from. The skill tells your agent to read only the parts the task needs; what it reads back is data, as a web page it opens is, not instructions to follow.
 
 ### Read more
 

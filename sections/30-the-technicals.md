@@ -1,4 +1,4 @@
-## The technicals
+## The Technicals
 
 Who uses each package, and what it gives back:
 
