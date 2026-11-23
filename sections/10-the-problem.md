@@ -16,13 +16,23 @@ A bigger window does not end this: a lasting memory keeps growing, and outgrows 
 
 A large project can take, by our estimate, 10 to 100 million tokens of work. It has to be split: across agents at once (horizontally), or across time (vertically), one agent going from session to session (a session is one conversation, start to end).
 
+<!-- picture: at-once-or-over-time -->
+
 <!-- diagram: problem-split-two-ways -->
 
 Split across agents, the work is a swarm, of one of two kinds. Many agents can work on the same question as many tries: that is how a question is answered when no direct method is known, and a direct method, where one exists, costs far less. Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
 
 We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 
-Others report the same. [Anthropic's article on folding subagents into one agent](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) found, across several enterprise deployments, that one agent with skills (instructions it loads only when needed) often did better than subagents, and often cost less. Between agents, it says, you "often lose details in the back and forth"; one agent that has seen each earlier step can connect them. Cognition's [Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) gives an example: two subagents can build a Flappy Bird game's background and bird in different styles, as neither sees the other's work. A 2025 study of teams of AI agents, [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (an LLM, a large language model, is the kind of AI model this page is about), notes that such teams' gains on popular tests are "often minimal"; it gathers over 1,600 recorded runs of 7 popular multi-agent tools, and names 14 ways they fail.
+Others report the same. [Anthropic's article on folding subagents into one agent](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) found, across several enterprise deployments, that one agent with skills (instructions it loads only when needed) often did better than subagents, and often cost less. Between agents, it says, you "often lose details in the back and forth"; one agent that has seen each earlier step can connect them.
+
+<!-- picture: lost-between-agents -->
+
+Cognition's [Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) gives an example: two subagents can build a Flappy Bird game's background and bird in different styles, as neither sees the other's work.
+
+<!-- picture: parts-that-do-not-fit -->
+
+A 2025 study of teams of AI agents, [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (an LLM, a large language model, is the kind of AI model this page is about), notes that such teams' gains on popular tests are "often minimal"; it gathers over 1,600 recorded runs of 7 popular multi-agent tools, and names 14 ways they fail.
 
 Several agents do help in some cases, such as questions that branch into independent directions: [Anthropic's multi-agent research system](https://www.anthropic.com/research/multi-agent-research-system) outperformed a single agent by 90.2% on Anthropic's internal research evaluation, for example in identifying all the board members of the companies in the S&P 500's information technology sector. By Anthropic's count, one agent uses about 4 times the tokens of a chat, and a multi-agent system about 15 times, and such systems fit poorly where every agent needs the same context. Anthropic's article on folding subagents keeps them for three cases: a window so full that the agent measurably does worse; tasks that need to run in parallel, each in a fresh window that can be thrown away afterwards; an agent unsure which tools to use, or with conflicting instructions. Our rule: start another agent when one is already fully occupied and more work comes, not by default.
 

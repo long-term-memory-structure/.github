@@ -4,6 +4,11 @@
 
 We have built a Long Term Memory Structure for users who wish to operate a persistent personal knowledge substrate with unbounded potential that does not decay with time or usage. For this purpose we reverted to classical veteran information system: append only ledgers, heal by addition, monotonic increments, time series, provenance, event sourcing versioning and pointers first. 
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="memes/before-after-dark.png">
+  <img src="memes/before-after-light.png" alt="Before and after. BEFORE: one context window packed wall to wall with a red graph of everything already written, solid discs joined by solid lines; the green of what is not yet written, hollow dashed rings, is crushed into its bottom corner. AFTER: the red graph has moved out of the window onto a disk, where it is kept; the same window now holds the green graph with room to grow, and a solid arrow marked by address copies one older red node from the disk into the window, where a dashed line joins it to the green.">
+</picture>
+
 In plain words: the design keeps everything an AI agent has done and only ever adds to it, and the agent reads back just the part it needs, by its address (every line of the record has one). The rest of this page explains why, and what you can use now.
 
 ## The Problem
@@ -46,6 +51,11 @@ A bigger window does not end this: a lasting memory keeps growing, and outgrows 
 
 A large project can take, by our estimate, 10 to 100 million tokens of work. It has to be split: across agents at once (horizontally), or across time (vertically), one agent going from session to session (a session is one conversation, start to end).
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="memes/at-once-or-over-time-dark.png">
+  <img src="memes/at-once-or-over-time-light.png" alt="Many agents at once, or one agent over time. On the left, under HORIZONTAL, four windows of the same size sit side by side at one moment, each working on its own piece of one graph: red solid dots joined by solid lines are work already written, green hollow rings joined by dashed lines are work not yet written. Where the graph crossed from one window to the next it is cut, an envelope (a message) bridges each gap, and the pieces that lay between the windows fall into a heap marked lost. On the right, under VERTICAL, one window is carried down an axis marked time; faint outlines show where it was earlier. Its red record runs down beside those outlines, outside them, with short branches reaching into each; its newest node joins the green work in the window by a dashed line, and an arrow marked by address reads one old red node back into the window as a copy, joined to the new green work.">
+</picture>
+
 ```mermaid
 ---
 config:
@@ -71,7 +81,21 @@ Split across agents, the work is a swarm, of one of two kinds. Many agents can w
 
 We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 
-Others report the same. [Anthropic's article on folding subagents into one agent](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) found, across several enterprise deployments, that one agent with skills (instructions it loads only when needed) often did better than subagents, and often cost less. Between agents, it says, you "often lose details in the back and forth"; one agent that has seen each earlier step can connect them. Cognition's [Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) gives an example: two subagents can build a Flappy Bird game's background and bird in different styles, as neither sees the other's work. A 2025 study of teams of AI agents, [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (an LLM, a large language model, is the kind of AI model this page is about), notes that such teams' gains on popular tests are "often minimal"; it gathers over 1,600 recorded runs of 7 popular multi-agent tools, and names 14 ways they fail.
+Others report the same. [Anthropic's article on folding subagents into one agent](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) found, across several enterprise deployments, that one agent with skills (instructions it loads only when needed) often did better than subagents, and often cost less. Between agents, it says, you "often lose details in the back and forth"; one agent that has seen each earlier step can connect them.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="memes/lost-between-agents-dark.png">
+  <img src="memes/lost-between-agents-light.png" alt="Two panels. HORIZONTAL, many agents at once: four context windows stand side by side, each holding a piece of one task's graph, and every one is mid-work at the same moment: the first part of each piece is written, solid red dots on solid lines, and the rest is not yet written, dashed green rings on dashed lines. Envelopes fly back and forth between neighbouring windows, while pieces of the graph fall through the gaps between the windows into heaps marked lost. VERTICAL, one agent over time: the same graph, whole, runs down the page on disk into one context window at its end, and that window reads an early node back by its address: an arrow runs from the node to a copy of it inside the window.">
+</picture>
+
+Cognition's [Don't Build Multi-Agents](https://cognition.com/blog/dont-build-multi-agents) gives an example: two subagents can build a Flappy Bird game's background and bird in different styles, as neither sees the other's work.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="memes/parts-that-do-not-fit-dark.png">
+  <img src="memes/parts-that-do-not-fit-light.png" alt="Parts built apart do not fit. At the top, under MANY AGENTS AT ONCE, three windows of the same size stand side by side, and in each one an agent builds its own piece of one graph without seeing the other windows, so the three pieces come out in three different styles, red discs, red squares and red diamonds, at three different heights. Where two pieces should join, in the gap between their windows, each agent built its own half of the joint: the two heavy ends reach the middle of the gap from either side, one higher than the other, and do not meet. At the bottom, under ONE AGENT OVER TIME, one window of the same size sits at the growing end of one graph drawn in one style. The part already written, solid red discs on solid lines, runs outside the window to the left; the part not yet written, hollow green rings with dashed outlines on dashed lines, grows inside the window, joined to the red across its frame. A solid arrow marked by address reads one older red node back into the window as a ringed copy, and a dashed line joins the copy to the new green work.">
+</picture>
+
+A 2025 study of teams of AI agents, [Why Do Multi-Agent LLM Systems Fail?](https://arxiv.org/abs/2503.13657) (an LLM, a large language model, is the kind of AI model this page is about), notes that such teams' gains on popular tests are "often minimal"; it gathers over 1,600 recorded runs of 7 popular multi-agent tools, and names 14 ways they fail.
 
 Several agents do help in some cases, such as questions that branch into independent directions: [Anthropic's multi-agent research system](https://www.anthropic.com/research/multi-agent-research-system) outperformed a single agent by 90.2% on Anthropic's internal research evaluation, for example in identifying all the board members of the companies in the S&P 500's information technology sector. By Anthropic's count, one agent uses about 4 times the tokens of a chat, and a multi-agent system about 15 times, and such systems fit poorly where every agent needs the same context. Anthropic's article on folding subagents keeps them for three cases: a window so full that the agent measurably does worse; tasks that need to run in parallel, each in a fresh window that can be thrown away afterwards; an agent unsure which tools to use, or with conflicting instructions. Our rule: start another agent when one is already fully occupied and more work comes, not by default.
 
