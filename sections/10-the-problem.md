@@ -20,7 +20,7 @@ A large project can take, by our estimate, 10 to 100 million tokens of work. It 
 
 <!-- diagram: problem-split-two-ways -->
 
-Split across agents, the work is a swarm, in one of two ways. Many agents can try the same question, each its own way: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
+Split across agents, the work is a swarm, of one of two kinds. Many agents can try the same question, each on its own: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
 
 We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 

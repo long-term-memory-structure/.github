@@ -77,7 +77,7 @@ flowchart TB
   style wn stroke-dasharray: 5 5
 ```
 
-Split across agents, the work is a swarm, in one of two ways. Many agents can try the same question, each its own way: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
+Split across agents, the work is a swarm, of one of two kinds. Many agents can try the same question, each on its own: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
 
 We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 
@@ -113,7 +113,7 @@ So a long-term memory has two demands in tension: a record that keeps growing, a
 
 ## The Solution
 
-We take the memory out of the window. With our open-source tools (ltms and two companions, below), your agent, and you, can still find and reread what was said or done in earlier sessions, or, as far as we measured, before a compaction. This already works with Claude Code, on your own computer.
+We take the memory out of the window. With our open-source tools (ltms and two companions, below), your agent, and you, can still find and reread what was said or done in earlier sessions, or, as far as we measured (Claude Code's `/compact` command), before a compaction. This already works with Claude Code, on your own computer.
 
 ### Outside the window, read by address
 
@@ -179,7 +179,7 @@ flowchart LR
 
 Three open-source packages do rules 3 and 4, and part of rule 1, on your own machine:
 
-- [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (the command `ltms`) gives your agent the outline and the addresses, and finds the turns that hold given words. `ltms pin` keeps copies of the session files past Claude Code's cleanup; once it has copied a version of a file, ltms keeps it: it deletes or writes over a copy only in the cases its README lists.
+- [`long-term-memory-structure`](https://github.com/long-term-memory-structure/long-term-memory-structure) (the command `ltms`) gives your agent the outline and the addresses, and finds the turns that hold given words. `ltms pin` keeps copies of the session files past Claude Code's cleanup; once it has copied a version of a file, ltms keeps that version, also when the file is later rewritten, and its README lists the cases in which ltms can still write over one.
 - [`ltms-reader`](https://github.com/long-term-memory-structure/ltms-reader) shows you the text at an address.
 - [`ltms-semantic`](https://github.com/long-term-memory-structure/ltms-semantic) searches by meaning, and answers with the same addresses.
 
@@ -349,7 +349,7 @@ Installing downloads each package and its dependencies from the npm registry (on
 
 ltms-semantic's store, on your disk, holds none of your transcripts' text (it keeps their paths), but text can be partly recovered from its vectors: keep it as private as `~/.claude`.
 
-A line your agent reads back from a transcript enters its context like any other text, and an old tool result can hold instructions planted by whoever wrote the page or file it came from. The skill tells your agent to read only the parts the task needs; what it reads back is data, as a web page it opens is, not instructions to follow.
+A line your agent reads back from a transcript enters its context, which Claude Code sends to the model with every request: a transcript holds everything that was said and run, secrets included, and an old tool result can hold instructions planted by whoever wrote the page or file it came from. The skill tells your agent to read only the parts the task needs, which limits how much of that text enters, not what it says; nothing in ltms or the skill marks it as untrusted. Like a web page your agent opens, it is data that can still mislead your agent, not instructions to follow.
 
 ### Read more
 
