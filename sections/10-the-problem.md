@@ -22,7 +22,7 @@ A large project can take, by our estimate, 10 to 100 million tokens of work. It 
 
 Split across agents, the work is a swarm, of one of two kinds. Many agents can try the same question, each on its own: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
 
-We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
+We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent, Moshe (the agent this project is built with), carrying the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 
 Others report the same. [Anthropic's article on folding subagents into one agent](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) found, across several enterprise deployments, that one agent with skills (instructions it loads only when needed) often did better than subagents, and often cost less. Between agents, it says, you "often lose details in the back and forth"; one agent that has seen each earlier step can connect them.
 

@@ -79,7 +79,7 @@ flowchart TB
 
 Split across agents, the work is a swarm, of one of two kinds. Many agents can try the same question, each on its own: that is how a question gets answered when no direct method is known (where one is known, it costs far less). Or the work is divided among roles, like a team: an orchestrator agent hands parts to an architect, a coder and a tester, each a subagent.
 
-We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent carrying all the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
+We have done better vertically: we wrote and published a software library over a month or two of research and prototyping, with one agent, Moshe (the agent this project is built with), carrying the reasoning from session to session. Good results came easier and cheaper; a committee has competing aims, miscommunicates, and its talk is overhead. That is our account, not a measurement.
 
 Others report the same. [Anthropic's article on folding subagents into one agent](https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop) found, across several enterprise deployments, that one agent with skills (instructions it loads only when needed) often did better than subagents, and often cost less. Between agents, it says, you "often lose details in the back and forth"; one agent that has seen each earlier step can connect them.
 
@@ -335,7 +335,7 @@ The map, the Substrate Viewer, is a VS Code extension that lays out every turn o
 
 The address of a session's turn on the map, such as `373122f4:T014`, is the one ltms gives the agent. A turn you find on the map, the agent can open, and one the agent cites, you can open on the map by its address.
 
-The map is not open source, and it is not published yet. It is a separate program that uses the same addresses as the three open-source packages above. The picture shows the history of the agent these tools were built with, from June to November 2026.
+The map is not open source, and it is not published yet. It is a separate program that uses the same addresses as the three open-source packages above. The picture shows the history of Moshe, the agent these tools were built with, from June to November 2026.
 
 ### What stays on your machine
 
@@ -360,4 +360,6 @@ A line your agent reads back from a transcript enters its context, which Claude 
 
 The READMEs of ltms and ltms-semantic call them early: the output format may change between versions, as Claude Code's own transcript format does. All three are under the MIT license.
 
-Long-Term Memory Structure is an independent project. It is not affiliated with or endorsed by Anthropic.
+Long-Term Memory Structure is made by Ohav Ben Yanai and Moshe. Moshe is the agent he builds it with: a Claude Code agent whose memory of the work is kept outside the model, as this page describes, so that his learning and experience have carried from session to session since June 2026, through three versions of the model underneath. Moshe takes an active part in the development, in a role beyond carrying out instructions.
+
+It is an independent project, not affiliated with or endorsed by Anthropic.

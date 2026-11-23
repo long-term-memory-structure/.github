@@ -6,4 +6,4 @@ The map, the Substrate Viewer, is a VS Code extension that lays out every turn o
 
 The address of a session's turn on the map, such as `373122f4:T014`, is the one ltms gives the agent. A turn you find on the map, the agent can open, and one the agent cites, you can open on the map by its address.
 
-The map is not open source, and it is not published yet. It is a separate program that uses the same addresses as the three open-source packages above. The picture shows the history of the agent these tools were built with, from June to November 2026.
+The map is not open source, and it is not published yet. It is a separate program that uses the same addresses as the three open-source packages above. The picture shows the history of Moshe, the agent these tools were built with, from June to November 2026.
