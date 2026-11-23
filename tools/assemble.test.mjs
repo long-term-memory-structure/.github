@@ -1,5 +1,6 @@
-// node --test tools/assemble.test.mjs — the assembler on planted trees: the order, a diagram, --check both ways, and
-// each refusal (a missing diagram, a stray file name, an empty section, backticks in a diagram, an unknown argument).
+// node --test tools/assemble.test.mjs — the assembler on planted trees: the order, a diagram, a picture, --check both
+// ways, and each refusal (a missing diagram, a picture's missing PNG or alt text, an empty alt text or one of two
+// paragraphs, a stray file name, an empty section, backticks in a diagram, an unknown argument).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
@@ -16,12 +17,15 @@ function tree(files) {
   mkdirSync(join(root, 'sections'));
   mkdirSync(join(root, 'diagrams'));
   mkdirSync(join(root, 'profile'));
-  for (const [p, body] of Object.entries(files)) writeFileSync(join(root, p), body);
+  for (const [p, body] of Object.entries(files)) {
+    mkdirSync(dirname(join(root, p)), { recursive: true });
+    writeFileSync(join(root, p), body);
+  }
   return root;
 }
 
 const HEADER =
-  '<!-- This file is assembled from sections/*.md and diagrams/*.mmd by tools/assemble.mjs. Edit those, then run: node tools/assemble.mjs -->\n\n';
+  '<!-- This file is assembled from sections/*.md, diagrams/*.mmd and memes/*/alt.txt by tools/assemble.mjs. Edit those, then run: node tools/assemble.mjs -->\n\n';
 
 test('sections join in name order, one blank line between, and a diagram line becomes its mermaid block', () => {
   const root = tree({
@@ -88,5 +92,57 @@ test('an unknown argument is a usage error (2), echoed', () => {
   const r = run(root, '--chek');
   assert.equal(r.status, 2);
   assert.match(r.stderr, /unknown argument "--chek"/);
+  rmSync(root, { recursive: true });
+});
+
+test('a picture line becomes its <picture>: the dark PNG for a dark theme, the light one as the image, the alt text from memes/NAME/alt.txt on one line, quoted', () => {
+  const root = tree({
+    'sections/00-a.md': '# A\n\n<!-- picture: demo -->\n\nafter\n',
+    'memes/demo/alt.txt': '\nTwo "panels",\n  one <window>\t& a disk.\n\n',
+    'profile/memes/demo-light.png': 'L',
+    'profile/memes/demo-dark.png': 'D',
+  });
+  const r = run(root);
+  assert.equal(r.status, 0, r.stderr);
+  const got = readFileSync(join(root, 'profile/README.md'), 'utf8');
+  assert.equal(
+    got,
+    HEADER +
+      '# A\n\n<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="memes/demo-dark.png">\n' +
+      '  <img src="memes/demo-light.png" alt="Two &quot;panels&quot;, one &lt;window&gt; &amp; a disk.">\n</picture>\n\nafter\n',
+  );
+  rmSync(root, { recursive: true });
+});
+
+test('a picture line is refused, with its line, for each PNG and for the alt text it lacks', () => {
+  const root = tree({
+    'sections/00-a.md': '# A\n\n<!-- picture: none -->\n\n<!-- picture: half -->\n',
+    'memes/half/alt.txt': 'A picture.\n',
+    'profile/memes/half-light.png': 'L',
+  });
+  const r = run(root);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /sections\/00-a\.md:3: <!-- picture: none --> needs profile\/memes\/none-light\.png and profile\/memes\/none-dark\.png, which do not exist\. Next: run memes\/none\/draw\.py\./);
+  assert.match(r.stderr, /sections\/00-a\.md:3: <!-- picture: none --> needs memes\/none\/alt\.txt, its alt text, which does not exist\./);
+  assert.match(r.stderr, /sections\/00-a\.md:5: <!-- picture: half --> needs profile\/memes\/half-dark\.png, which does not exist\./);
+  assert.doesNotMatch(r.stderr, /half-light\.png/);
+  assert.doesNotMatch(r.stderr, /memes\/half\/alt\.txt/);
+  rmSync(root, { recursive: true });
+});
+
+test('an alt text that is empty, or more than one paragraph, is refused', () => {
+  const root = tree({
+    'sections/00-a.md': '# A\n\n<!-- picture: blank -->\n\n<!-- picture: two -->\n',
+    'memes/blank/alt.txt': '  \n\t\n',
+    'memes/two/alt.txt': 'One paragraph.\n \nAnother.\n',
+    'profile/memes/blank-light.png': 'L',
+    'profile/memes/blank-dark.png': 'D',
+    'profile/memes/two-light.png': 'L',
+    'profile/memes/two-dark.png': 'D',
+  });
+  const r = run(root);
+  assert.equal(r.status, 1);
+  assert.match(r.stderr, /memes\/blank\/alt\.txt is empty/);
+  assert.match(r.stderr, /memes\/two\/alt\.txt holds more than one paragraph/);
   rmSync(root, { recursive: true });
 });

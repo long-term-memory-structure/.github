@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // tools/assemble.mjs: profile/README.md is assembled from sections/*.md, in file-name order (00-…, 10-…, 20-…). A line
-// that is exactly `<!-- diagram: NAME -->` becomes a ```mermaid block holding diagrams/NAME.mmd. The sections and the
-// diagrams are the sources; the README is never edited by hand. The website reads the same sources.
+// that is exactly `<!-- diagram: NAME -->` becomes a ```mermaid block holding diagrams/NAME.mmd. A line that is exactly
+// `<!-- picture: NAME -->` becomes a <picture> of profile/memes/NAME-light.png and NAME-dark.png (the dark one where the
+// reader's theme is dark), its alt text memes/NAME/alt.txt. The sections, the diagrams and the alt texts are the sources;
+// the README is never edited by hand. The website reads the same sources.
 //
 //   node tools/assemble.mjs                 write profile/README.md
 //   node tools/assemble.mjs --check         exit 0 if profile/README.md is the assembly, else 1 (the first line that differs)
@@ -14,9 +16,39 @@ import { fileURLToPath } from 'node:url';
 
 const USAGE = 'usage: node tools/assemble.mjs [--check] [--root DIR]';
 const HEADER =
-  '<!-- This file is assembled from sections/*.md and diagrams/*.mmd by tools/assemble.mjs. Edit those, then run: node tools/assemble.mjs -->\n\n';
+  '<!-- This file is assembled from sections/*.md, diagrams/*.mmd and memes/*/alt.txt by tools/assemble.mjs. Edit those, then run: node tools/assemble.mjs -->\n\n';
 const SECTION_NAME = /^\d\d-[a-z0-9-]+\.md$/;
 const DIRECTIVE = /^<!-- diagram: ([a-z0-9-]+) -->$/;
+const PICTURE = /^<!-- picture: ([a-z0-9-]+) -->$/;
+
+// Text for an HTML attribute in double quotes.
+const attribute = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+// The <picture> lines for memes NAME, or null with the problems pushed: its two PNGs in profile/memes/ (the page shows
+// them, by paths relative to profile/README.md) and its alt text, one paragraph, in memes/NAME/alt.txt.
+function picture(root, where, line, name, problems) {
+  const light = `memes/${name}-light.png`;
+  const dark = `memes/${name}-dark.png`;
+  const missing = [light, dark].filter((p) => !existsSync(join(root, 'profile', p))).map((p) => 'profile/' + p);
+  if (missing.length)
+    problems.push(`${where}: ${line} needs ${missing.join(' and ')}, which ${missing.length > 1 ? 'do' : 'does'} not exist. Next: run memes/${name}/draw.py.`);
+  const altPath = join(root, 'memes', name, 'alt.txt');
+  let alt = null;
+  if (!existsSync(altPath)) problems.push(`${where}: ${line} needs memes/${name}/alt.txt, its alt text, which does not exist. Next: write it, one paragraph in plain words.`);
+  else {
+    const text = readFileSync(altPath, 'utf8').replace(/\r\n/g, '\n').trim();
+    if (!text) problems.push(`memes/${name}/alt.txt is empty: write the alt text, one paragraph in plain words.`);
+    else if (/\n[ \t]*\n/.test(text)) problems.push(`memes/${name}/alt.txt holds more than one paragraph: the alt text is one.`);
+    else alt = text.replace(/\s+/g, ' ');
+  }
+  if (missing.length || alt === null) return null;
+  return [
+    '<picture>',
+    `  <source media="(prefers-color-scheme: dark)" srcset="${dark}">`,
+    `  <img src="${light}" alt="${attribute(alt)}">`,
+    '</picture>',
+  ];
+}
 
 function fail(code, message) {
   process.stderr.write(message.endsWith('\n') ? message : message + '\n');
@@ -54,6 +86,11 @@ export function assemble(root) {
     const lines = readFileSync(join(sectionsDir, f), 'utf8').replace(/\r\n/g, '\n').split('\n');
     const out = [];
     lines.forEach((line, i) => {
+      const p = PICTURE.exec(line);
+      if (p) {
+        const block = picture(root, `sections/${f}:${i + 1}`, line, p[1], problems);
+        return block ? out.push(...block) : out.push(line);
+      }
       const m = DIRECTIVE.exec(line);
       if (!m) return out.push(line);
       const name = m[1];

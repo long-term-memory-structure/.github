@@ -1,4 +1,4 @@
-<!-- This file is assembled from sections/*.md and diagrams/*.mmd by tools/assemble.mjs. Edit those, then run: node tools/assemble.mjs -->
+<!-- This file is assembled from sections/*.md, diagrams/*.mmd and memes/*/alt.txt by tools/assemble.mjs. Edit those, then run: node tools/assemble.mjs -->
 
 # Long-Term Memory Structure
 
