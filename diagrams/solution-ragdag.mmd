@@ -1,0 +1,17 @@
+---
+config:
+  flowchart:
+    wrappingWidth: 200
+---
+flowchart LR
+  accTitle: A search by meaning, answered with addresses
+  accDescr: The same question, in your own words, searched by meaning in two ways. The usual way, called RAG, finds the passages nearest in meaning and puts their text into the context window. Our way, which we call RAGDAG: ltms-semantic finds the passages nearest in meaning and answers with their addresses, such as 1a2b3c4d:L120, not with their text or vectors; only the line needed is then read, at its address.
+  q["your question,<br/>in your own words"]
+  subgraph RAG["the usual way (RAG): answered with text"]
+    n1["finds the passages<br/>nearest in meaning"] --> t1["puts their text<br/>into the window"]
+  end
+  subgraph RD["our way (RAGDAG): answered with addresses"]
+    n2["ltms-semantic finds<br/>the passages nearest<br/>in meaning"] --> a2["answers with addresses,<br/>not text or vectors:<br/>1a2b3c4d:L120"] --> r2["only the line needed<br/>is read, at its address"]
+  end
+  q --> n1
+  q --> n2

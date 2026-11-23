@@ -1,0 +1,21 @@
+---
+config:
+  flowchart:
+    wrappingWidth: 200
+---
+flowchart TB
+  accTitle: Every step sends the whole window again
+  accDescr: Three steps of an agent. At step 1 the model is sent its instructions and your request. At step 2 it is sent those again, with a command it ran and that command's output. At step 3 it is sent all of that again, with a file it read. Everything already in the window is sent again, and counted again, at every step.
+  subgraph S1["step 1: the model is sent"]
+    direction LR
+    a1["instructions<br/>and notes"] ~~~ a2["your request"]
+  end
+  subgraph S2["step 2: the model is sent"]
+    direction LR
+    b1["instructions<br/>and notes"] ~~~ b2["your request"] ~~~ b3["a command it ran,<br/>and its output"]
+  end
+  subgraph S3["step 3: the model is sent"]
+    direction LR
+    c1["instructions<br/>and notes"] ~~~ c2["your request"] ~~~ c3["a command it ran,<br/>and its output"] ~~~ c4["a file it read"]
+  end
+  S1 --> S2 --> S3

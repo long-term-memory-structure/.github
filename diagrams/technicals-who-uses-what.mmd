@@ -1,0 +1,26 @@
+flowchart LR
+  accTitle: Who uses what
+  accDescr: Your transcripts, one file per session in your project's folder under ~/.claude/projects/, are read by ltms (four commands that only read: index, skeleton, search, stats), which gives addresses to your agent and to you, by ltms-semantic, which searches by meaning and gives you addresses, and by ltms-reader, which shows you the text at an address in the terminal; the skill teaches your agent ltms's commands and how to read the one line at an address, which it reads from your transcripts itself; ltms pin, which you run, keeps copies of them past Claude Code's 30-day cleanup; and the map, not open source and not published yet, reads its own store and gives you the same addresses.
+  folder[("<b>your transcripts</b><br/>~/.claude/projects/#lt;project#gt;/<br/>one file per session")]
+  ltms["<b>ltms</b><br/>index#160;·#160;skeleton<br/>search · stats<br/>(they#160;only#160;read)"]
+  skill["<b>the skill</b><br/>~/.claude/skills/ltms/"]
+  semantic["<b>ltms-semantic</b><br/>search#160;by#160;meaning"]
+  reader["<b>ltms-reader</b><br/>in#160;the#160;terminal"]
+  store[("<b>the#160;map's#160;own#160;store</b>")]
+  map["<b>the map</b><br/>not#160;open#160;source,<br/>not#160;published#160;yet"]
+  copies[("<b>copies</b><br/>past#160;Claude#160;Code's<br/>30-day#160;cleanup")]
+  agent(["#160;<br/>your agent<br/>#160;"])
+  you(["#160;<br/>you<br/>#160;"])
+
+  skill -->|"teaches#160;it#160;the#160;commands<br/>and#160;how#160;to#160;read#160;one#160;line"| agent
+  folder --> ltms
+  ltms -->|addresses| agent
+  ltms -->|addresses| you
+  folder -->|"the one line<br/>at an address"| agent
+  folder --> semantic -->|addresses| you
+  folder --> reader -->|"the text<br/>at an address"| you
+  store -.-> map -.->|"the same<br/>addresses"| you
+  folder -->|"ltms pin<br/>(you run it)"| copies
+
+  style map stroke-dasharray: 5 5
+  style store stroke-dasharray: 5 5

@@ -1,0 +1,18 @@
+---
+config:
+  flowchart:
+    wrappingWidth: 200
+---
+flowchart TB
+  accTitle: A task too big for one window, split two ways
+  accDescr: A task too big for one context window can be split two ways. Horizontally, many agents at once: an orchestrator hands parts of it to an architect, a coder and a tester; each has its own window, the work passes between them in messages, and details often get lost. Vertically, one agent over time: the same agent carries the task from session 1 to session 2 to session 3, and the question is what carries over from one session to the next.
+  T["a task too big<br/>for one window"]
+  T -->|"horizontal:<br/>many agents at once"| o["orchestrator"]
+  o --> ar["architect"]
+  o --> co["coder"]
+  o --> te["tester"]
+  co ~~~ wn["each has its own window;<br/>the work passes between<br/>them in messages, and<br/>details often get lost"]
+  T -->|"vertical:<br/>one agent over time"| s1["session 1"]
+  s1 -->|"what carries over?"| s2["session 2"]
+  s2 -->|"what carries over?"| s3["session 3"]
+  style wn stroke-dasharray: 5 5

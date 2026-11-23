@@ -1,0 +1,21 @@
+---
+config:
+  flowchart:
+    wrappingWidth: 200
+---
+flowchart LR
+  accTitle: An address and its line
+  accDescr: Two addresses in the outline's line for this call lead into demo.jsonl, ltms's sample transcript of 37 lines: a: demo.jso:L24 to line 24, the call, and r: demo.jso:L25 to line 25, its result, the one line the agent reads, not lines 1 to 23 or 26 to 37.
+  O["the outline's line<br/>for this call<br/>(ltms skeleton)<br/>ok: false · ek: exit-1"]
+  subgraph T["demo.jsonl, ltms's sample transcript"]
+    B["lines 1 to 23"]:::rest
+    L24["line 24: the call"]
+    L25["line 25: its result<br/>FAIL test/add.test.js<br/>expected 4, received 5<br/><b>the line the agent reads</b>"]:::read
+    E["lines 26 to 37"]:::rest
+  end
+  O ~~~ B
+  O -->|"a: demo.jso:L24"| L24
+  O -->|"r: demo.jso:L25"| L25
+  O ~~~ E
+  classDef rest stroke-dasharray: 5 5
+  classDef read stroke-width: 3px
