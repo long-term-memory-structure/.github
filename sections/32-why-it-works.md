@@ -1,6 +1,6 @@
 ### Why it works
 
-The measurement behind rule 2 above: with `/compact` on Claude Code 2.1.270 and 2.1.300, compaction only adds to the transcript; on 2.1.300 the summary also names the transcript's file. Automatic compaction, and compaction after tool calls, were not tested. What each model's summary kept, measured: [the compaction page](https://long-term-memory-structure.github.io/long-term-memory-structure/compaction.html).
+The measurement behind rule 2 above: with `/compact` (the command that compacts a session on demand) on Claude Code 2.1.270 and 2.1.300, compaction only adds to the transcript; on 2.1.300 the summary also names the transcript's file. Automatic compaction, and compaction after tool calls, were not tested. What each model's summary kept, measured: [the compaction page](https://long-term-memory-structure.github.io/long-term-memory-structure/compaction.html).
 
 But the file is hard to read back: one line can be hundreds of kilobytes.
 

@@ -4,8 +4,8 @@ config:
     wrappingWidth: 200
 ---
 flowchart TB
-  accTitle: The same context window, without ltms and with it
-  accDescr: Two context windows of the same size. Without ltms, memory is kept in the window: beside instructions and notes sit memory loaded in (wiki pages, earlier work, as much as fits) and, after a compaction, a summary of the earlier work, so little room is left for the work; the session files on your disk are hard to read back. With ltms, memory is kept on disk and read back when needed, even after a compaction: the window holds instructions, notes and the skill, a small outline, and one line read by its address; the rest of the window is for the work, which Claude Code still compacts to a summary when the window fills.
+  accTitle: The same context window, with a memory kept in it and with ltms
+  accDescr: Two context windows of the same size. With a memory kept in the window: beside instructions and notes sit memory loaded in (wiki pages, earlier work, as much as fits) and, after a compaction, a summary of the earlier work, so little room is left for the work; the session files on your disk are hard to read back. With ltms, memory is kept on disk and read back when needed, even after a compaction: the window holds instructions, notes and the skill, a small outline, and one line read by its address; the rest of the window is for the work, which Claude Code still compacts to a summary when the window fills.
   subgraph WITH["With ltms: memory on disk"]
     d2[("your disk:<br/>one transcript<br/>per session")]
     subgraph W2["the context window"]
@@ -13,7 +13,7 @@ flowchart TB
     end
     d2 -->|"read back when needed,<br/>even after a compaction"| W2
   end
-  subgraph TODAY["Without ltms: memory in the window"]
+  subgraph INWINDOW["A memory kept in the window"]
     d1[("your disk:<br/>one transcript<br/>per session")]
     subgraph W1["the context window"]
       i1["instructions and notes"] ~~~ m1["memory loaded in:<br/>wiki pages,<br/>earlier work,<br/>as much as fits"] ~~~ u1["after a compaction:<br/>a summary of<br/>the earlier work"] ~~~ k1["the work:<br/>little room left"]
