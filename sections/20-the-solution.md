@@ -6,7 +6,7 @@ We take the memory out of the window. With our open-source tools (ltms and two c
 
 The design, in four rules:
 
-1. **Keep everything.** Delete nothing to make room; let no summary replace the record. Correct a mistake with a new record, and keep both: this is what "append only ledgers" and "heal by addition" mean above.
+1. **Keep everything.** Delete nothing to make room; let no summary replace the record. Correct a mistake with a new record, and keep both: this is what "append-only ledgers" and "heal by addition" mean above.
 2. **Keep it outside the window.** Claude Code already writes each session to a file on your computer, its transcript, one record per line: prompts, replies, tool calls, their results, and more. A compaction, as far as we measured, only adds to that file: the details leave the model's view, not the disk. (Claude Code deletes these files after 30 days by default; `ltms pin`, below, keeps copies.)
 3. **Reach it by address.** Every line has an address, such as `1a2b3c4d:L120`: line 120 of the session whose file name begins `1a2b3c4d`.
 4. **Read only the line needed.** The agent reads a small outline of a session (a line per turn and per tool call, each with its address; a turn is a prompt and the work after it), then, from the outline or a search, the one line it needs, not the whole session. The aim: a small fixed cost in every session (the skill's short description; the skill itself, a short instruction file that teaches your agent the commands, loads when it is used), and a small cost per search.
