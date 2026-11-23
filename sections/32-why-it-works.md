@@ -4,7 +4,7 @@ The measurement behind rule 2 above: with `/compact` (the command that compacts 
 
 But the file is hard to read back: one line can be hundreds of kilobytes.
 
-So ltms gives the agent a small outline of each transcript. `ltms skeleton` prints a line per turn and per tool call, like this one from ltms's test transcript `demo.jsonl`, whose addresses start with `demo.jso`:
+So ltms gives the agent a small outline of each transcript. `ltms skeleton` prints a line per turn and per tool call, like this one from ltms's sample transcript `demo.jsonl`, whose addresses start with `demo.jso`:
 
 ```
 {"k":"call","a":"demo.jso:L24","ta":"demo.jso:T003","tool":"Bash","verb":"npm","in":"84c7c646123a","ok":false,"ek":"exit-1","r":"demo.jso:L25","out":"429ad9a9f725","n":58}

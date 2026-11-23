@@ -277,7 +277,7 @@ The measurement behind rule 2 above: with `/compact` (the command that compacts 
 
 But the file is hard to read back: one line can be hundreds of kilobytes.
 
-So ltms gives the agent a small outline of each transcript. `ltms skeleton` prints a line per turn and per tool call, like this one from ltms's test transcript `demo.jsonl`, whose addresses start with `demo.jso`:
+So ltms gives the agent a small outline of each transcript. `ltms skeleton` prints a line per turn and per tool call, like this one from ltms's sample transcript `demo.jsonl`, whose addresses start with `demo.jso`:
 
 ```
 {"k":"call","a":"demo.jso:L24","ta":"demo.jso:T003","tool":"Bash","verb":"npm","in":"84c7c646123a","ok":false,"ek":"exit-1","r":"demo.jso:L25","out":"429ad9a9f725","n":58}
@@ -356,7 +356,7 @@ A line your agent reads back from a transcript enters its context, which Claude 
 - The READMEs of [ltms](https://github.com/long-term-memory-structure/long-term-memory-structure), [ltms-reader](https://github.com/long-term-memory-structure/ltms-reader) and [ltms-semantic](https://github.com/long-term-memory-structure/ltms-semantic): how each works, and its limits.
 - [Claude Code's compaction doesn't delete your history. It re-roots it.](https://long-term-memory-structure.github.io/long-term-memory-structure/compaction.html): what compaction writes, measured.
 
-### Status
+## Status
 
 The READMEs of ltms and ltms-semantic call them early: the output format may change between versions, as Claude Code's own transcript format does. All three are under the MIT license.
 
