@@ -107,6 +107,11 @@ A new session starts with amnesia: what it needs must be put into the window aga
 
 A popular memory is a wiki: linked pages that the model keeps up. Karpathy's [LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) says reading its index first "works surprisingly well at moderate scale (~100 sources, ~hundreds of pages)". We have seen such a memory work up to some 100 to 300 linked files, depending on their size, then rot: once loaded, it leaves too little room for the work. That is the shape Thomas Jiralerspong drew for productivity with AI, a peak and then a cliff, in [Chasing the Karpathy Peak (and Falling Off Slop Cliff)](https://blog.thomas.jiralerspong.com/p/chasing-the-karpathy-peak).
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="memes/peak-and-cliff-dark.png">
+  <img src="memes/peak-and-cliff-light.png" alt="A chart, our version of Thomas Jiralerspong's Karpathy Peak chart, redrawn for memory. Across, the memory grows; up, the useful work. A thinner line, tagged in the window, is the outline of a shaded mountain: a memory kept in the context window climbs to a sharp summit named KARPATHY PEAK, then drops straight down a sheer cliff named CONTEXT CLIFF to almost nothing, and stays there as the memory keeps growing. A heavier line, tagged on disk, starts with it, passes under the peak in front of the mountain, and keeps climbing to the top right, past the height of the peak, with no cliff. A small credit reads: after Thomas Jiralerspong's Karpathy Peak.">
+</picture>
+
 When the window fills, Claude Code compacts the session, showing "Compacting conversation…": the model carries on from a summary of the older part. The summary is written before anyone knows the next question, so it guesses what will matter. A memory kept in the window must also forget to make room, yet no one knows which record a later question will need: a security audit months later, say, of a tool call that looked innocent at the time. And an old note that no longer fits the task can throw the model off.
 
 So a long-term memory has two demands in tension: a record that keeps growing, and as little of it as possible in the window. That is the problem this project works on.
