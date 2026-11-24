@@ -188,6 +188,8 @@ Three open-source packages do rules 3 and 4, and part of rule 1, on your own mac
 - [`ltms-reader`](https://github.com/long-term-memory-structure/ltms-reader) shows you the text at an address.
 - [`ltms-semantic`](https://github.com/long-term-memory-structure/ltms-semantic) searches by meaning, and answers with the same addresses.
 
+A fourth package stands beside them: [`ltms-driver`](https://github.com/long-term-memory-structure/ltms-driver), an agent session driver in Go. It was designed first for the handoff from one context window to the next, and second for working across providers at the HTTP level. It keeps every event in an append-only store whose records are named by their hashes, and a handoff is an edge from one window to the next: a working piece of the larger design below.
+
 A map, a separate program, shows people the same history, by the same addresses. It is not open source or published yet; a picture is in the technicals below.
 
 The larger design goes further; these are its ideas, not the packages' features. In the packages, an address is the start of a session file's name and a line or a turn in it. In the design, each record is filed under its hash, a short code computed from its contents, so a changed record no longer matches its code. Records point back to earlier ones by hash, a shape called a [DAG](https://docs.ipfs.tech/concepts/merkle-dag/) (the DAG in RAGDAG); a search by meaning answers with those hashes.
